@@ -16,13 +16,3 @@ class AmazonItem(scrapy.Item):
     image = scrapy.Field()
     availability = scrapy.Field()
     store_link = scrapy.Field()
-
-
-class BookItem(scrapy.Item):
-    name = scrapy.Field()
-    id = scrapy.Field()
-    price = scrapy.Field()
-    publication_date = scrapy.Field()
-    image = scrapy.Field()
-    availability = scrapy.Field()
-    store_link = scrapy.Field()
