@@ -6,8 +6,9 @@ from PriceTrackerSpider.items import AmazonItem
 
 # Scrape amazon's canadian website to read and register the latest prices of berserk mangas to the API
 class AmazonSpider(scrapy.Spider):
+    limit = 0
     name = "amazon"
-    allowed_domains = ["https://www.amazon.ca"]
+    allowed_domains = ["amazon.ca"]
 
     start_urls = [
         # Shorten this link
@@ -23,7 +24,7 @@ class AmazonSpider(scrapy.Spider):
             name = ' '.join(title.split())
 
             # Scrapes if Format: Berserk Volume 16
-            if name.startswith("Berserk") and name[-1:].isdigit():
+            if name.startswith("Berserk Volume") and name[-1:].isdigit():
                 item['name'] = name
 
                 # ID is the volume's number / Gets extracted from the title then converted to an int
@@ -63,3 +64,15 @@ class AmazonSpider(scrapy.Spider):
                     item['availability'] = "Not sold by Amazon.ca"
                 # Return
                 yield item
+
+        # Crawl the next pages [limit = 3]
+        next_page = response.xpath('//span[contains(@class, "pagnLink")]//a/@href').extract()
+        if next_page:
+            # If first page
+            if self.limit == 0:
+                next_page_url = next_page[0]
+            else:
+                next_page_url = next_page[1]
+            self.limit += 1
+            request = scrapy.Request(url="amazon.ca" + next_page_url)
+            yield request
