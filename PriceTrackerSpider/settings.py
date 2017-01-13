@@ -9,11 +9,20 @@
 #     http://scrapy.readthedocs.org/en/latest/topics/downloader-middleware.html
 #     http://scrapy.readthedocs.org/en/latest/topics/spider-middleware.html
 
+import sys
+import os
+import django
+
 BOT_NAME = 'PriceTrackerSpider'
 
 SPIDER_MODULES = ['PriceTrackerSpider.spiders']
 NEWSPIDER_MODULE = 'PriceTrackerSpider.spiders'
 
+# DjangoItem support
+sys.path.insert(0, '/home/ahmad/PycharmProjects/BerserkerPriceTracker/PriceTrack')
+os.environ['DJANGO_SETTINGS_MODULE'] = 'PriceTrack.settings'
+
+django.setup()
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = 'PriceTrackerSpider (+http://www.yourdomain.com)'

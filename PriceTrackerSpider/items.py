@@ -6,9 +6,15 @@
 # http://doc.scrapy.org/en/latest/topics/items.html
 
 import scrapy
+from scrapy_djangoitem import DjangoItem
+from volume.models import Product
 
 
-class AmazonItem(scrapy.Item):
+class AmazonItem(DjangoItem):
+    django_model = Product
+
+
+class TestItem(scrapy.Item):
     name = scrapy.Field()
     id = scrapy.Field()
     price = scrapy.Field()

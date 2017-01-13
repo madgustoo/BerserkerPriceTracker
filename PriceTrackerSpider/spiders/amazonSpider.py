@@ -62,7 +62,9 @@ class AmazonSpider(scrapy.Spider):
                     item['availability'] = availability
                 else:
                     item['availability'] = "Not sold by Amazon.ca"
-                # Return
+                # Return for json
+                # yield item
+                # Save to database
                 yield item
 
         # Crawl the next pages [limit = 3]
