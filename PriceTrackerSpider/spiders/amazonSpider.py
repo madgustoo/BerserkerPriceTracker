@@ -67,12 +67,12 @@ class AmazonSpider(scrapy.Spider):
 
         # Crawl the next pages [limit = 3]
         next_page = response.xpath('//span[contains(@class, "pagnLink")]//a/@href').extract()
-        if next_page:
+        if next_page and self.limit < 4:
             # If first page
             if self.limit == 0:
                 next_page_url = next_page[0]
             else:
                 next_page_url = next_page[1]
             self.limit += 1
-            request = scrapy.Request(url="amazon.ca" + next_page_url)
+            request = scrapy.Request(url="https://www.amazon.ca"+next_page_url)
             yield request
