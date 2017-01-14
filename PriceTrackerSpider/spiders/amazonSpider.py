@@ -65,7 +65,7 @@ class AmazonSpider(scrapy.Spider):
                 # Return for json
                 # yield item
                 # Save to database
-                yield item
+                item.save()
 
         # Crawl the next pages [limit = 3]
         next_page = response.xpath('//span[contains(@class, "pagnLink")]//a/@href').extract()

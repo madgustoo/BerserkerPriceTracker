@@ -18,7 +18,7 @@ BOT_NAME = 'PriceTrackerSpider'
 SPIDER_MODULES = ['PriceTrackerSpider.spiders']
 NEWSPIDER_MODULE = 'PriceTrackerSpider.spiders'
 
-# DjangoItem support
+# Setting up django's project full path.
 sys.path.insert(0, '/home/ahmad/PycharmProjects/BerserkerPriceTracker/PriceTrack')
 os.environ['DJANGO_SETTINGS_MODULE'] = 'PriceTrack.settings'
 

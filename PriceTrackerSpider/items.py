@@ -7,7 +7,7 @@
 
 import scrapy
 from scrapy_djangoitem import DjangoItem
-from volume.models import Product
+from volumes.models import Product
 
 
 class AmazonItem(DjangoItem):
