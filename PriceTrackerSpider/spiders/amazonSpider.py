@@ -1,7 +1,8 @@
 import re
 import scrapy
 import datetime
-from PriceTrackerSpider.items import AmazonItem
+from PriceTrackerSpider.items import AmazonItem, RetailerItem
+from volumes.models import Product
 
 
 # Scrape amazon's canadian website to read and register the latest prices of berserk mangas to the API
@@ -22,13 +23,13 @@ class AmazonSpider(scrapy.Spider):
             title = section.xpath('.//h2/text()').extract_first()
             # Substitute multiple whitespace with a single whitespace
             name = ' '.join(title.split())
+            # ID is the volume's number / Gets extracted from the title then converted to an int
+            product_id = ''.join(x for x in name if x.isdigit())
 
             # Scrapes if Format: Berserk Volume 16
             if name.startswith("Berserk Volume") and name[-1:].isdigit():
                 item['name'] = name
-
-                # ID is the volume's number / Gets extracted from the title then converted to an int
-                item['id'] = int(''.join(x for x in title if x.isdigit()))
+                item['id'] = product_id
 
                 date = section.xpath('.//span[3][contains(@class, "a-color-secondary")]/text()').extract_first()
                 if len(date) > 4:
@@ -67,7 +68,16 @@ class AmazonSpider(scrapy.Spider):
                 # Save to database
                 item.save()
 
-        # Crawl the next pages [limit = 3]
+                # Separate Bot for retailers / Constant Id?
+                retailer_item = RetailerItem()
+                retailer_item['product'] = Product.objects.get(id=product_id)
+                retailer_item['retailer_name'] = "amazon"
+                retailer_item['store_link'] = "adfsd"
+                retailer_item['availability'] = "Sold out Amazon.ca"
+                retailer_item['price'] = 12.1
+                retailer_item.save()
+
+            # Crawl the next pages [limit = 3]
         next_page = response.xpath('//span[contains(@class, "pagnLink")]//a/@href').extract()
         if next_page and self.limit < 4:
             # If first page
