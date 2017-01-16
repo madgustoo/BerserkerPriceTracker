@@ -12,7 +12,7 @@ class DataSpider(scrapy.Spider):
     allowed_domains = ["amazon.ca"]
 
     start_urls = [
-        "https://www.amazon.ca/s/ref=nb_sb_ss_i_2_6?url=search-alias%3Dstripbooks&field-keywords=berserk+manga"
+        "https://www.amazon.ca/s/ref=sr_pg_3?rh=n%3A916520%2Ck%3ABerserk+volume&page=3&keywords=Berserk+volume&ie=UTF8&qid=1484536936"
     ]
 
     # Section is an amazon search result, which is a div within the HTML class s-tem-container

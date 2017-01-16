@@ -15,10 +15,14 @@ class AmazonSpider(scrapy.Spider):
     allowed_domains = ["amazon.ca"]
 
     start_urls = [
-        "https://www.amazon.ca/s/ref=nb_sb_ss_i_2_6?url=search-alias%3Dstripbooks&field-keywords=berserk+manga"
+        "https://www.amazon.ca/s/ref=sr_pg_3?rh=n%3A916520%2Ck%3ABerserk+volume&page=3&keywords=Berserk+volume&ie=UTF8&qid=1484536936"
     ]
 
     def parse(self, response):
+
+        if self.limit == 0:
+            Retailer.objects.filter(retailer_name__contains=self.retailer_name).delete()
+
         for section in response.xpath('//div[@class="s-item-container"]'):
             retailer_item = RetailerItem()
             title = section.xpath('.//h2/text()').extract_first()
@@ -54,7 +58,8 @@ class AmazonSpider(scrapy.Spider):
                     else:
                         retailer_item['store_link'] = 0
 
-                    availability = section.xpath('.//div[contains(@class, "a-span7")]//div[4]//span/text()').extract_first()
+                    availability = section.xpath(
+                        './/div[contains(@class, "a-span7")]//div[4]//span/text()').extract_first()
                     # Also checks if the xpath didn't select a price value [$], because of amazon's dom format, this is hard to predict and so this workaround does great
                     if availability and "$" not in availability:
                         retailer_item['availability'] = availability
