@@ -20,6 +20,7 @@ class AmazonSpider(scrapy.Spider):
 
     def parse(self, response):
 
+        # TODO: find a way to overwrite or to check if it retailer already exists and simply update instead of cleansing Retailer table
         if self.limit == 0:
             Retailer.objects.filter(retailer_name__contains=self.retailer_name).delete()
 
@@ -28,8 +29,6 @@ class AmazonSpider(scrapy.Spider):
             title = section.xpath('.//h2/text()').extract_first()
             name = ' '.join(title.split())
             product_id = ''.join(x for x in name if x.isdigit())
-
-            # TODO: find a way to overwrite or to check if it retailer already exists and simply update
 
             # Scrapes if Format: Berserk Volume 16
             if name.startswith("Berserk Volume") and name[-1:].isdigit():
