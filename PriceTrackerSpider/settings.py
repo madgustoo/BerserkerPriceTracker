@@ -74,7 +74,7 @@ ROBOTSTXT_OBEY = True
 # Configure item pipelines
 # See http://scrapy.readthedocs.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
-   'PriceTrackerSpider.pipelines.AmazonPipeline': 300,
+   'PriceTrackerSpider.pipelines.PriceTrackerPipeline': 300,
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)

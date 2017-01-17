@@ -9,7 +9,6 @@ from volumes.models import Product, Retailer
 # Scrape amazon's canadian website to read and register PRICES and AVAILABILITY of berserk mangas to the API
 class AmazonSpider(scrapy.Spider):
     retailer_name = "amazon.ca"
-    retailer_id = 1
     limit = 0
     name = "amazon"
     allowed_domains = ["amazon.ca"]
@@ -28,7 +27,7 @@ class AmazonSpider(scrapy.Spider):
             retailer_item = RetailerItem()
             title = section.xpath('.//h2/text()').extract_first()
             name = ' '.join(title.split())
-            product_id = ''.join(x for x in name if x.isdigit())
+            product_id = ''.join(x for x in title if x.isdigit())
 
             # Scrapes if Format: Berserk Volume 16
             if name.startswith("Berserk Volume") and name[-1:].isdigit():
@@ -40,7 +39,6 @@ class AmazonSpider(scrapy.Spider):
                     retailer_item['product'] = Product.objects.get(id=product_id)
                 except ObjectDoesNotExist:
                     print("Volume #" + product_id + " does not exist")
-                    pass
                 else:
                     # If it does not raise an DoesNotExist exception
                     cost = section.xpath('.//span[contains(@class, "s-price")]/text()').extract_first()
@@ -48,17 +46,12 @@ class AmazonSpider(scrapy.Spider):
                         # Remove CAD$ from the price
                         price = re.sub('[CDN$]', '', cost)
                         retailer_item['price'] = float(price)
-                    else:
-                        retailer_item['price'] = None
 
                     store_link = section.xpath('.//a/@href').extract_first()
                     if store_link:
                         retailer_item['store_link'] = store_link
-                    else:
-                        retailer_item['store_link'] = 0
 
-                    availability = section.xpath(
-                        './/div[contains(@class, "a-span7")]//div[4]//span/text()').extract_first()
+                    availability = section.xpath('.//div[contains(@class, "a-span7")]//div[4]//span/text()').extract_first()
                     # Also checks if the xpath didn't select a price value [$], because of amazon's dom format, this is hard to predict and so this workaround does great
                     if availability and "$" not in availability:
                         retailer_item['availability'] = availability

@@ -21,7 +21,7 @@ class Retailer(models.Model):
     retailer_name = models.CharField(max_length=100)
     price = models.FloatField(null=True)
     availability = models.CharField(max_length=100, null=True)
-    store_link = models.CharField(max_length=100, null=True)
+    store_link = models.CharField(max_length=500, null=True)
 
     def __str__(self):
         return self.retailer_name

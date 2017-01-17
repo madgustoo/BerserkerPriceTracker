@@ -34,14 +34,10 @@ class DataSpider(scrapy.Spider):
                 if len(date) > 4:
                     publication_date = datetime.datetime.strptime(date, '%b %d %Y').date()
                     item['publication_date'] = publication_date
-                else:
-                    item['publication_date'] = None
 
                 image = section.xpath('.//img/@src').extract_first()
                 if image:
                     item['image'] = image
-                else:
-                    item['image'] = None
 
                 # Save to database
                 item.save()
