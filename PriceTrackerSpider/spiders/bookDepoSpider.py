@@ -1,9 +1,9 @@
 import re
 import scrapy
+from volumes.models import Product, Retailer
 from django.db import IntegrityError
 from django.core.exceptions import ObjectDoesNotExist
 from PriceTrackerSpider.items import RetailerItem
-from volumes.models import Product, Retailer
 from .util import strip_whitespace
 
 
@@ -31,7 +31,8 @@ class BookDepoSpider(scrapy.Spider):
             product_id = ''.join(x for x in title if x.isdigit())
 
             # Scrapes if Format: Starts with Berserk: and ends with a number
-            if name.startswith("Berserk:") and name[-1:].isdigit():
+            # 38 has a different title than the rest of the dark horse translations
+            if name.startswith("Berserk:") or name.startswith("Berserk Volume 38") and name[-1:].isdigit():
                 retailer_item['retailer_name'] = self.retailer_name
 
                 # Gets the product with its id (product_id) and adds or updates its bookdepo details
@@ -39,7 +40,6 @@ class BookDepoSpider(scrapy.Spider):
                     retailer_item['product'] = Product.objects.get(id=product_id)
                 except (IntegrityError and ObjectDoesNotExist):
                     print("Volume #" + product_id + " does not exist in the database")
-                    pass
                 else:
                     cost = section.xpath('.//p[@class="price"]/text()').extract_first()
                     if cost:
@@ -56,8 +56,8 @@ class BookDepoSpider(scrapy.Spider):
                     if store_link:
                         retailer_item['store_link'] = self.domain + store_link
 
-                # Save to database
-                retailer_item.save()
+                    # Save to database
+                    retailer_item.save()
 
         # Crawl the next pages [limit = 3]
         next_page = response.xpath('//ul[contains(@class, "responsive-pagination")]/li/a/@href').extract()

@@ -1,8 +1,9 @@
 import re
 import scrapy
+from volumes.models import Product, Retailer
+from django.db import IntegrityError
 from django.core.exceptions import ObjectDoesNotExist
 from PriceTrackerSpider.items import RetailerItem
-from volumes.models import Product, Retailer
 from .util import strip_whitespace
 
 
@@ -37,8 +38,8 @@ class AmazonSpider(scrapy.Spider):
                 # Gets the product with its id (product_id) and adds or updates its amazon details
                 try:
                     retailer_item['product'] = Product.objects.get(id=product_id)
-                except ObjectDoesNotExist:
-                    print("Volume #" + product_id + " does not exist")
+                except (IntegrityError and ObjectDoesNotExist):
+                    print("Volume #" + product_id + " does not exist in the database")
                 else:
                     # If it does not raise an DoesNotExist exception
                     cost = section.xpath('.//span[contains(@class, "s-price")]/text()').extract_first()
@@ -73,8 +74,8 @@ class AmazonSpider(scrapy.Spider):
                     if store_link:
                         retailer_item['store_link'] = store_link
 
-                # Save to database
-                retailer_item.save()
+                    # Save to database
+                    retailer_item.save()
 
         # Crawl the next pages [limit = 3]
         next_page = response.xpath('//span[contains(@class, "pagnLink")]//a/@href').extract()
