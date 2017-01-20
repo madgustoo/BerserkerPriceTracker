@@ -23,6 +23,10 @@ class Retailer(models.Model):
     availability = models.BooleanField(default=False)
     availability_note = models.CharField(max_length=500, null=True)
     store_link = models.CharField(max_length=500, null=True)
+    updated_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ['retailer_name', 'product']
 
     def __str__(self):
         return self.retailer_name

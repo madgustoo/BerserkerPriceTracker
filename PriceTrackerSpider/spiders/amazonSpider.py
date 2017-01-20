@@ -22,6 +22,7 @@ class AmazonSpider(scrapy.Spider):
     def parse(self, response):
 
         # TODO: find a way to overwrite or to check if it retailer already exists and simply update instead of cleansing Retailer table
+        # TODO: LOG CAUGHT ERRORS TO SEPARATE FILE LOOK INTO PYTHON LOGGING
         if self.limit == 0:
             Retailer.objects.filter(retailer_name__contains=self.retailer_name).delete()
 
@@ -74,8 +75,12 @@ class AmazonSpider(scrapy.Spider):
                     if store_link:
                         retailer_item['store_link'] = store_link
 
-                    # Save to database
-                    retailer_item.save()
+                    # Saves to database / Expects duplicate keys, scraping is unpredictable at times
+                    # Caught if this retailer already exists for this product
+                    try:
+                        retailer_item.save()
+                    except IntegrityError:
+                        print("Duplicate retailer " + self.retailer_name + " detected for Volume #" + product_id)
 
         # Crawl the next pages [limit = 3]
         next_page = response.xpath('//span[contains(@class, "pagnLink")]//a/@href').extract()

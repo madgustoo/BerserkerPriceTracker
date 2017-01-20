@@ -57,7 +57,10 @@ class BookDepoSpider(scrapy.Spider):
                         retailer_item['store_link'] = self.domain + store_link
 
                     # Save to database
-                    retailer_item.save()
+                    try:
+                        retailer_item.save()
+                    except IntegrityError:
+                        print("Duplicate retailer " + self.retailer_name + " detected for Volume #" + product_id)
 
         # Crawl the next pages [limit = 3]
         next_page = response.xpath('//ul[contains(@class, "responsive-pagination")]/li/a/@href').extract()
