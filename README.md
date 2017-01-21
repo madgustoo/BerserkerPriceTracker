@@ -13,7 +13,7 @@ These instructions will get you started with setting up all three projects in yo
 
 Install projects requirements in a virtualenv rather than your global environnement, this is highly recommended and best practice.
 
-So get one up and running and install requirements using:
+Get one up and running and install requirements using:
 
 ```
 pip install -r requirements.txt
@@ -21,7 +21,7 @@ pip install -r requirements.txt
 
 ### Installation
 
-First, let's link your Django models to the Scrapy project.
+First, let's link the Django models to the Scrapy project.
 
 The goal here is to get the three scrapy spiders to succesfully save the scraped data to the database in Django.
 In order to use Django models inside the Scrapy project, change the following path in the Scrapy's project settings.py to the path to your local Django project in your cloned repo: 
@@ -33,8 +33,10 @@ sys.path.insert(0, '/home/madgusto/PycharmProjects/BerserkerPriceTracker/PriceTr
 For more info on how this works, I'd recommend checking the Step section in [scrapy-djangoitem](https://github.com/scrapy-plugins/scrapy-djangoitem)'s doc (the README file)
 
 Now let's take time to setup and configure a PostgreSQL database for the Django project. 
-* Create a Database and Database User
-* For the Database, name it berserkdb or whichever name you see fit 
+
+* Create a database and database User
+
+For the database name it as berserkdb or whichever name you see fit.
 
 Then change both respective fields inside Django's settings.py: 
 
@@ -51,7 +53,7 @@ DATABASES = {
 }
 ```
 
-[PostgreSQL installation](https://www.digitalocean.com/community/tutorials/how-to-use-postgresql-with-your-django-application-on-ubuntu-14-04) - Highly recommended if you're new to PostgreSQL. This is where you'll find out about the Create Database and User commands.
+[PostgreSQL installation](https://www.digitalocean.com/community/tutorials/how-to-use-postgresql-with-your-django-application-on-ubuntu-14-04) - Highly recommended if you're new to PostgreSQL. This is where you'll find out about the Create database and Create user commands.
 
 ## Running the spiders
 
