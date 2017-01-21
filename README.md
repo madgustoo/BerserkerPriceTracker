@@ -50,7 +50,7 @@ DATABASES = {
 }
 ```
 
-[PostgreSQL installation](https://www.digitalocean.com/community/tutorials/how-to-use-postgresql-with-your-django-application-on-ubuntu-14-04) - Highly recommended if you're new to PostgreSQL and have no clue how to set up
+[PostgreSQL installation](https://www.digitalocean.com/community/tutorials/how-to-use-postgresql-with-your-django-application-on-ubuntu-14-04) - Highly recommended if you're new to PostgreSQL. This is where you'll find out about the Create Database and User commands.
 
 ## Running the spiders
 
