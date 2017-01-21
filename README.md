@@ -32,9 +32,9 @@ sys.path.insert(0, '/home/madgusto/PycharmProjects/BerserkerPriceTracker/PriceTr
 
 For more info on how this works, I'd recommend checking the Step section in [scrapy-djangoitem](https://github.com/scrapy-plugins/scrapy-djangoitem)'s doc (the README file)
 
-Now time to setup and configure a PostgreSQL database for the Django project. 
+Now let's take time to setup and configure a PostgreSQL database for the Django project. 
 * Create a Database and Database User
-* For the Database, name it BerserkDB or whichever name you see fit 
+* For the Database, name it berserkdb or whichever name you see fit 
 
 Then change both respective fields inside Django's settings.py: 
 
