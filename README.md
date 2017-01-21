@@ -2,6 +2,7 @@
 Price tracker for Berserk (Scraper, API and App included)
 
 PriceTrack: Django Project
+
 PriceTrackSpider: Scrapy Project
 
 ## Getting Started
