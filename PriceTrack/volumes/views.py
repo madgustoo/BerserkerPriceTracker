@@ -1,8 +1,15 @@
-from django.shortcuts import render
-from django.http import HttpResponse
+from rest_framework.views import APIView
+from rest_framework.views import Response
+from . import serializers
+from . import models
 
 
 # Create your views here.
 
-def index(request):
-    return HttpResponse("Hello, world. You're at the volume index.")
+class ProductList(APIView):
+    def get(self, request, format=None):
+        products = models.Product.objects.all()
+        serializer = serializers.ProductSerializer(products, many=True)
+        return Response(serializer.data)
+
+
