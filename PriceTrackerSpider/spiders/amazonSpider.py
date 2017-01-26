@@ -8,7 +8,7 @@ from .util import strip_whitespace
 
 
 # This Spider will crawl once a day
-# Scrape amazon's canadian website to read and register PRICES and AVAILABILITY of berserk mangas to the API
+# Scrape amazon's canadian website to read and register PRICES and AVAILABILITY of Berserk mangas to the API
 class AmazonSpider(scrapy.Spider):
     retailer_name = "amazon.ca"
     limit = 0
@@ -33,7 +33,7 @@ class AmazonSpider(scrapy.Spider):
             product_id = ''.join(x for x in title if x.isdigit())
 
             # Scrapes if Format: Berserk Volume 16
-            if name.startswith("Berserk Volume") and name[-1:].isdigit():
+            if name.startswith("Berserk Volume") and name[-1:].isdigit() and len(name) < 20:
                 retailer_item['retailer_name'] = self.retailer_name
 
                 # Gets the product with its id (product_id) and adds or updates its amazon details

@@ -26,7 +26,7 @@ class DataSpider(scrapy.Spider):
             product_id = ''.join(x for x in name if x.isdigit())
 
             # Scrapes if Format: Berserk Volume 16
-            if name.startswith("Berserk Volume") and name[-1:].isdigit():
+            if name.startswith("Berserk Volume") and name[-1:].isdigit() and len(name) < 20:
                 item['name'] = name
                 item['id'] = product_id
 
