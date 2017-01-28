@@ -21,7 +21,6 @@ from volumes import views
 
 router = routers.SimpleRouter()
 router.register(r'berserk', views.ProductViewSet)
-router.register(r'retailer', views.RetailerViewSet)
 
 
 urlpatterns = [

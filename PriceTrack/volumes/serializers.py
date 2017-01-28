@@ -2,22 +2,9 @@ from rest_framework import serializers
 from . import models
 
 
-class ProductSerializer(serializers.ModelSerializer):
-    class Meta:
-        fields = (
-            'id',
-            'name',
-            'image',
-            'publication_date',
-            'updated_at'
-        )
-        model = models.Product
-
-
 class RetailerSerializer(serializers.ModelSerializer):
     class Meta:
         fields = (
-            'product',
             'retailer_name',
             'price',
             'availability',
@@ -26,3 +13,19 @@ class RetailerSerializer(serializers.ModelSerializer):
             'updated_at'
         )
         model = models.Retailer
+
+
+class ProductSerializer(serializers.ModelSerializer):
+    retailers = RetailerSerializer(many=True, read_only=True)
+
+    class Meta:
+        fields = (
+            'id',
+            'name',
+            'image',
+            'publication_date',
+            'updated_at',
+            'retailers'
+        )
+        model = models.Product
+

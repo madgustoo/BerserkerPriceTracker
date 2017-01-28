@@ -24,7 +24,7 @@ class Product(models.Model):
 
 
 class Retailer(models.Model):
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='retailers')
     retailer_name = models.CharField(max_length=100)
     price = models.FloatField(null=True)
     availability = models.BooleanField(default=False)
