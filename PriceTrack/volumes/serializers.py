@@ -8,7 +8,8 @@ class ProductSerializer(serializers.ModelSerializer):
             'id',
             'name',
             'image',
-            'publication_date'
+            'publication_date',
+            'updated_at'
         )
         model = models.Product
 
@@ -16,6 +17,7 @@ class ProductSerializer(serializers.ModelSerializer):
 class RetailerSerializer(serializers.ModelSerializer):
     class Meta:
         fields = (
+            'product',
             'retailer_name',
             'price',
             'availability',
