@@ -54,11 +54,11 @@ class AmazonSpider(scrapy.Spider):
 
                     # Also checks if the xpath didn't select a price value [$], because of amazon's dom format, this is hard to predict and so this workaround does great
                     availability = section.xpath(
-                        './/div[contains(@class, "a-span7")]//div[4]//span/text()').extract_first()
+                        './/div[contains(@class, "a-span7")]//div[3]//span/text()').extract_first()
                     if availability and "$" not in availability:
 
                         availability_test = strip_whitespace(availability.lower())
-                        if availability_test == "eligible for free shipping":
+                        if availability_test == "eligible for free shipping" or availability_test == "get it by":
                             retailer_item['availability'] = True
                             retailer_item['availability_note'] = "In Stock"
                         elif availability_test.startswith("not in stock"):
