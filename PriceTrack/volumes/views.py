@@ -1,15 +1,15 @@
 from rest_framework import viewsets
 from rest_framework.decorators import detail_route
 from rest_framework.response import Response
-from django.views.generic import TemplateView
+from django.views.generic import ListView
 from . import serializers
 from . import models
 
 """ View to App"""
 
 
-class AppView(TemplateView):
-    template_name = 'volumes/home.html'
+class ProductListView(ListView):
+    model = models.Product
 
 
 """ API """

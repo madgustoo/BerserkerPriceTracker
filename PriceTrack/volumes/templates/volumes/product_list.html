@@ -1,0 +1,59 @@
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>BerserkerPriceTracker</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+     <link rel="stylesheet" type="text/css" href="{% static 'volumes/style.css' %}">
+</head>
+<body class="mt-5">
+    <div class="container">
+        <h1 class="display-4">Berserker Price Tracker</h1>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Volume</th>
+                        <th>Retailer</th>
+                        <th>Price</th>
+                        <th>Availability</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for item in product_list %}
+                    <tr>
+                        <td colspan="4">{{ item.name }}</td>
+                        {% for retailer in item.retailers.all %}
+                            <tr>
+                                <td></td>
+                                <!-- Company logos here -->
+                                <td><a href="{{ retailer.store_link }}">{{ retailer.retailer_name }}</a></td>
+
+                                {% if retailer.price  %}
+                                    <td>${{ retailer.price }}</td>
+                                {% else %}
+                                    <td>N/A</td>
+                                {% endif %}
+
+                                {% if retailer.availability  %}
+                                    <td style="color: white" class="stock bg-success"><a style="color: white" href="" data-toggle="tooltip" title="{{ retailer.availability_note }}">In Stock</a></td>
+                                {% else %}
+                                    <td style="color: white" class="stock bg-danger"><a style="color: white" href="" data-toggle="tooltip" title="{{ retailer.availability_note }}">Unavailable</a></td>
+                                {% endif %}
+                            </tr>
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+    </div>
+
+<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+<!-- Node -->
+<script type="text/javascript" src="{% static 'volumes/app.js' %}">  </script>
+</body>
+</html>
+
+
+
