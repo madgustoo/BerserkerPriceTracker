@@ -9,6 +9,8 @@
 <body class="mt-5">
     <div class="container">
         <h1 class="display-6">Berserker Price Tracker</h1>
+        <p>Last updated on: </p>
+        <p> All prices shown are in CAD</p>
             <table class="table">
                 <thead>
                     <tr>
@@ -18,28 +20,28 @@
                 <tbody>
                 {% for item in product_list %}
                     <tr>
-                        <td colspan="4" data-toggle="collapse" data-target="#demo{{ item.id }}" class="accordion-toggle">{{ item.name }}</td>
+                        <td colspan="4" data-toggle="collapse" data-target="#volume{{ item.id }}" class="accordion-toggle">{{ item.name }}</td>
                         <td colspan="12" class="hiddenRow">
-                            <div class="accordian-body collapse" id="demo{{ item.id }}">
-                                <table class="table table-striped">
+                            <div class="accordian-body collapse" id="volume{{ item.id }}">
+                                <table class="table">
                                     <thead>
+                                        <th></th>
                                         <th>Retailer</th>
                                         <th>Price</th>
                                         <th>Availability</th>
                                     </thead>
                                     <tbody>
+                                    <tr>
+                                    <td rowspan="2"><img src="{{ item.image }}"></td>
                                     <!-- loop here -->
                                     {% for retailer in item.retailers.all %}
-                                        <tr>
                                             <!-- Company logos here -->
                                             <td><a href="{{ retailer.store_link }}">{{ retailer.retailer_name }}</a></td>
-
                                             {% if retailer.price  %}
                                                 <td>${{ retailer.price }}</td>
                                             {% else %}
                                                 <td>N/A</td>
                                             {% endif %}
-
                                             {% if retailer.availability  %}
                                                 <td style="color: white" class="stock bg-success"><a style="color: white" href="" data-toggle="tooltip" title="{{ retailer.availability_note }}">In Stock</a></td>
                                             {% else %}
@@ -57,7 +59,13 @@
                 </tbody>
             </table>
     </div>
-
+    <br>
+    <footer class="footer"">
+        <div class="container">
+            <p class="text-muted">Check out the <a href="api/v1/berserk">API</a></p>
+            <p class="text-muted">Fork the <a href="https://github.com/madgustoo/BerserkerPriceTracker">repo</a></p>
+        </div>
+    </footer>
 <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>

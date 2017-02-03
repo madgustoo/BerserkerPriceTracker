@@ -1,9 +1,16 @@
 .stock a {
     display: block;
-    height: 100%;
 }
-
+.stock {
+    height: 10%;
+}
 .accordion-toggle:hover {
     color: lightcoral;
+}
+
+.footer {
+    background-color: lightcyan;
+    padding-top: 1%;
+    padding-bottom: 1%;
 }
 
