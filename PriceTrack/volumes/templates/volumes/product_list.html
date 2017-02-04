@@ -4,13 +4,14 @@
     <meta charset="UTF-8">
     <title>BerserkerPriceTracker</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
-     <link rel="stylesheet" type="text/css" href="{% static 'volumes/style.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'volumes/style.css' %}">
 </head>
 <body class="mt-5">
     <div class="container">
-        <h1 class="display-6">Berserker Price Tracker</h1>
-        <p>Last updated on: </p>
+        <h1 class="display-6" id="top">Berserker Price Tracker</h1>
+        <p>Last updated on: {{ product_list.0.retailers.all.1.updated_at }} (EST)</p>
         <p> All prices shown are in CAD</p>
+        <p><a href="#bottom">See you at the bottom!</a></p>
             <table class="table">
                 <thead>
                     <tr>
@@ -20,19 +21,19 @@
                 <tbody>
                 {% for item in product_list %}
                     <tr>
-                        <td colspan="4" data-toggle="collapse" data-target="#volume{{ item.id }}" class="accordion-toggle">{{ item.name }}</td>
-                        <td colspan="12" class="hiddenRow">
-                            <div class="accordian-body collapse" id="volume{{ item.id }}">
+                        <td >{{ item.name }}</td>
+                        <td><img src="{{ item.image }}"></td>
+                        <td>
+                            <div  id="volume{{ item.id }}">
                                 <table class="table">
                                     <thead>
-                                        <th></th>
                                         <th>Retailer</th>
                                         <th>Price</th>
                                         <th>Availability</th>
                                     </thead>
                                     <tbody>
+                                    <!-- Open row for retailer -->
                                     <tr>
-                                    <td rowspan="2"><img src="{{ item.image }}"></td>
                                     <!-- loop here -->
                                     {% for retailer in item.retailers.all %}
                                             <!-- Company logos here -->
@@ -43,15 +44,14 @@
                                                 <td>N/A</td>
                                             {% endif %}
                                             {% if retailer.availability  %}
-                                                <td style="color: white" class="stock bg-success"><a style="color: white" href="" data-toggle="tooltip" title="{{ retailer.availability_note }}">In Stock</a></td>
+                                                <td style="color: white" class="bg-success" data-toggle="tooltip" title="{{ retailer.availability_note }}">In Stock</td>
                                             {% else %}
-                                                <td style="color: white" class="stock bg-danger"><a style="color: white" href="" data-toggle="tooltip" title="{{ retailer.availability_note }}">Unavailable</a></td>
+                                                <td style="color: white" class="bg-danger" data-toggle="tooltip" title="{{ retailer.availability_note }}">Unavailable</td>
                                             {% endif %}
-                                        </tr>
+                                        </tr> <!-- close row retailer -->
                                     {% endfor %}
                                     </tbody>
                                 </table>
-
                             </div>
                         </td>
                     </tr>
@@ -60,10 +60,11 @@
             </table>
     </div>
     <br>
-    <footer class="footer"">
+    <footer class="footer" id="bottom">
         <div class="container">
-            <p class="text-muted">Check out the <a href="api/v1/berserk">API</a></p>
-            <p class="text-muted">Fork the <a href="https://github.com/madgustoo/BerserkerPriceTracker">repo</a></p>
+            <p class="text-muted"><a href="api/v1/berserk">Check out the API</a></p>
+            <p class="text-muted"><a href="https://github.com/madgustoo/BerserkerPriceTracker">Fork the Repo</a></p>
+            <p><a href="#top">Take me back!</a></p>
         </div>
     </footer>
 <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
