@@ -37,7 +37,7 @@
                                     <!-- loop here -->
                                     {% for retailer in item.retailers.all %}
                                             <!-- Company logos here -->
-                                            <td><a href="{{ retailer.store_link }}">{{ retailer.retailer_name }}</a></td>
+                                            <td><a target="_blank" href="{{ retailer.store_link }}">{{ retailer.retailer_name }}</a></td>
                                             {% if retailer.price  %}
                                                 <td>${{ retailer.price }}</td>
                                             {% else %}
