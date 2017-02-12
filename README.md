@@ -65,5 +65,3 @@ Note: update here can easily mean add if spiders are run the first time
 ```
 scrapy crawl datacrawler
 ```
-
-This updates all the amazon entries in the Retailer table in the Database
