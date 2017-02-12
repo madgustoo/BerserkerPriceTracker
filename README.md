@@ -1,9 +1,9 @@
 # BerserkerPriceTracker
-Price tracker for Berserk (Scraper, API and App included)
+Price tracker for Berserk (Scraper, API and Django App included)
 
-PriceTrack: Django Project
+PriceTrack: REST API, Django project and app
 
-PriceTrackerSpider: Scrapy Project
+PriceTrackerSpider: Scrapy project
 
 ## Getting Started
 
@@ -24,7 +24,7 @@ pip install -r requirements.txt
 First, let's link the Django models to the Scrapy project.
 
 The goal here is to get the three scrapy spiders to succesfully save the scraped data to the database in Django.
-In order to use Django models inside the Scrapy project, change the following path in the Scrapy's project settings.py to the path to your local Django project in your cloned repo: 
+And so in order to use Django models inside the Scrapy project, change the following path in the Scrapy's project settings.py to the path to your local Django project in your cloned repo: 
 ```
 # Setting up django's project full path.
 sys.path.insert(0, '/home/madgusto/PycharmProjects/BerserkerPriceTracker/PriceTrack')
@@ -32,13 +32,11 @@ sys.path.insert(0, '/home/madgusto/PycharmProjects/BerserkerPriceTracker/PriceTr
 
 For more info on how this works, I'd recommend checking the Step section in [scrapy-djangoitem](https://github.com/scrapy-plugins/scrapy-djangoitem)'s doc (the README file)
 
-Now let's take time to setup and configure a PostgreSQL database for the Django project. 
+Now let's take time to setup and configure a PostgreSQL database for Django. 
 
 * Create a database and database User
 
-For the database name it as berserkdb or whichever name you see fit.
-
-Then change both respective fields inside Django's settings.py: 
+Then change both respective fields in settings.py: 
 
 ```
 DATABASES = {
@@ -57,8 +55,15 @@ DATABASES = {
 
 ## Running the spiders
 
+Available spiders as of 12/02/2017 
+Note: update here can easily mean add if spiders are run the first time
+* datacrawler :  crawls amazon and updates common 'static' entries like the name, the image, etc.
+* amazon : crawls amazon and updates all of amazon's prices and availability entries 
+* bookdepo : crawls bookdepository and updates all of bookdepository's prices and availability entries 
+
+### Example
 ```
-scrapy crawl amazon
+scrapy crawl datacrawler
 ```
 
 This updates all the amazon entries in the Retailer table in the Database
