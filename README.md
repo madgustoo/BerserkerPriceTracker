@@ -1,9 +1,9 @@
 # BerserkerPriceTracker
 Price tracker for Berserk (Scraper, API and Django App included)
 
-PriceTrack: REST API, Django project and app
+PriceTrack: The Django project, app and REST api 
 
-PriceTrackerSpider: Scrapy project
+PriceTrackerSpider: The Scrapy project
 
 ## Getting Started
 
