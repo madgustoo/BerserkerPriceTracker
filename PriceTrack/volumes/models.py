@@ -26,7 +26,8 @@ class Product(models.Model):
 class Retailer(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='retailers')
     retailer_name = models.CharField(max_length=100)
-    price = models.FloatField(null=True)
+    price = models.DecimalField(max_digits=6, decimal_places=2, null=True)
+    # price = models.FloatField(null=True)
     availability = models.BooleanField(default=False)
     availability_note = models.CharField(max_length=500, null=True)
     store_link = models.CharField(max_length=500, null=True)

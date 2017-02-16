@@ -16,7 +16,7 @@ class AmazonSpider(scrapy.Spider):
     allowed_domains = ["amazon.ca"]
 
     start_urls = [
-        "https://www.amazon.ca/s/ref=sr_pg_1?rh=n%3A916520%2Ck%3ABerserk+volume&keywords=Berserk+volume&ie=UTF8&qid=1484711680"
+        "https://www.amazon.ca/s/ref=nb_sb_ss_i_1_7?url=search-alias%3Dstripbooks&field-keywords=berserk&sprefix=Berserk%2Caps%2C189&crid=11L5OTWIQXAH3"
     ]
 
     def parse(self, response):
@@ -48,28 +48,26 @@ class AmazonSpider(scrapy.Spider):
                         # Remove CAD$ from the price
                         price = re.sub('[CDN$]', '', cost)
                         retailer_item['price'] = float(price)
+
+                        # Also checks if the xpath didn't select a price value [$], because of amazon's dom format,
+                        # this is hard to predict and so this workaround does great
+                        availability = section.xpath(
+                            './/div[contains(@class, "a-span7")]//div[4]//span/text()').extract_first()
+                        if availability and "$" not in availability:
+                            # Default for availability and its note
+                            retailer_item['availability'] = True
+                            retailer_item['availability_note'] = availability
+                            if availability.startswith("More") or availability.startswith("Eligible"):
+                                retailer_item['availability_note'] = "In Stock"
+                            # Not in stock
+                            elif availability.startswith("Not"):
+                                retailer_item['availability'] = False
+                                retailer_item['availability_note'] = "Not in Stock"
                     else:
                         # Some don't have a listed price from amazon nor have they an availability note
-                        retailer_item['availability_note'] = "Unavailable"
-
-                    # Also checks if the xpath didn't select a price value [$], because of amazon's dom format, this is hard to predict and so this workaround does great
-                    availability = section.xpath(
-                        './/div[contains(@class, "a-span7")]//div[3]//span/text()').extract_first()
-                    if availability and "$" not in availability:
-
-                        availability_test = strip_whitespace(availability.lower())
-                        if availability_test == "eligible for free shipping" or availability_test == "get it by":
-                            retailer_item['availability'] = True
-                            retailer_item['availability_note'] = "In Stock"
-                        elif availability_test.startswith("not in stock"):
-                            retailer_item['availability'] = False
-                            retailer_item['availability_note'] = "Not in Stock"
-                        elif "pre-order" in availability_test:
-                            retailer_item['availability'] = False
-                            retailer_item['availability_note'] = availability
-                        else:
-                            retailer_item['availability'] = True
-                            retailer_item['availability_note'] = availability
+                        retailer_item['price'] = None
+                        retailer_item['availability'] = False
+                        retailer_item['availability_note'] = "Not in Stock"
 
                     store_link = section.xpath('.//a/@href').extract_first()
                     if store_link:
